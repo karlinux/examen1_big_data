@@ -59,16 +59,6 @@ function mouseDown(event){
   }
 }
 
-//Esta funcion guarda el primer resultado y el signo de operaciones que se va a ejecutaar
-function calcular(operacion){
-  var calcular = {
-    numero: ContenidoDisplay,
-    operacion: operacion
-  }
-  localStorage.setItem('calcular', JSON.stringify(calcular));
-  return 0;
-
-}
 //Función devuelve el resultado
 function igual(){
   var resultado = "0";
@@ -105,16 +95,16 @@ function igual(){
   //Esta variable no deja borrar hasta que se ingresa el primer número
   operarbooleano=true;
   return resultado;
-
-  setTimeout(function(){
-    resultado = "0";
-  },1000)
 }
 
 //Funcion para los numeros y punto mostrados en el display ----------
 function displays(seleccion){
   //Guarda un punto para que se le asigne antes al siguiente número
   if(seleccion == "punto" || seleccion == "." ){
+    if(operarbooleano){
+      numero = "0";
+      operarbooleano=false;
+    }
     guardarPunto = true;
   }else{
       //Convierte en flotante el exponencial extraido del display
@@ -127,6 +117,7 @@ function displays(seleccion){
         ContenidoDisplay="0";
         operarbooleano=false;
       }
+
       //Concatena la cadena que ya existia con el numero presionado
       numero = ContenidoDisplay+seleccion;
 
@@ -210,7 +201,7 @@ function oprimir_tecla(event){
       localStorage.removeItem("calcular");
       display.innerHTML = "0";
     }else if(seleccion=="s" && ContenidoDisplay!="0"){
-      display.innerHTML =   signos(seleccion); //Para agregar el signo 
+      display.innerHTML =   signos(seleccion); //Para agregar el signo
     }else if(seleccion == "*" || seleccion == "/" || seleccion == "-" || seleccion == "+"){
       calcular(seleccion);
     }else if(seleccion == "="){
